@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HashMap</title>
+</head>
+<body>
+    <script>
+
+        class HashMap {
+
+            constructor() {
+                this.array = new Array(16);
+                this.loadFactor = .75;
+            }
+
+            checkSize() {
+                let capacity = 0;
+                for (let index of this.array) {
+                    if (index === undefined) {
+                        continue;
+                    } else {
+                        capacity++;
+                    }
+                }
+
+                capacity = capacity / 10;
+
+                if (capacity >= this.loadFactor) {
+                    this.array = this.array.concat(new Array(this.array.length));
+                }
+
+                return this.array;
+            }
+
+            hash(value) {
+                let hashCode = 0;
+
+                const primeNumber = 31;
+                for (let i = 0; i < value.length; i++) {
+                    hashCode = Math.floor((primeNumber * hashCode + value.charCodeAt(i)) % 16);
+                }
+
+                return hashCode;
+            }
+
+            set(key, value) {
+
+                this.checkSize();
+
+                const hashedKey = this.hash(key);
+                const stringHash = hashedKey.toString();
+                this.array[hashedKey] = {[stringHash]: value};
+
+                return this.array;
+            }
+
+            get(key) {
+                const hashedKey = this.hash(key);
+                if (this.array[hashedKey] === undefined) {
+                    return null;
+                } else {
+                    return this.array[hashedKey];
+                }
+            }
+
+            has(key) {
+                const hashedKey = this.hash(key);
+                if (this.array[hashedKey] === undefined) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            remove(key) {
+                const hashedKey = this.hash(key);
+                if (this.array[hashedKey] === undefined) {
+                    return false;
+                } else {
+                    delete this.array[hashedKey];
+                    return true;
+                }
+            }
+
+            length() {
+                let capacity = 0;
+                for (let index of this.array) {
+                    if (index === undefined) {
+                        continue;
+                    } else {
+                        capacity++;
+                    }
+                }
+
+                return capacity;
+            }
+
+            clear() {
+                for (let i = 0; i <= this.array.length; i++) {
+                    delete this.array[i];
+                }
+
+                return this.array;
+            }
+
+            keys() {
+                const keysArray = [];
+                for (let index of this.array) {
+                    if (index === undefined) {
+                        continue;
+                    } else {
+                        const key = Object.keys(index);
+                        keysArray.push(key[0]);
+                    }
+                }
+                return keysArray;
+            }
+
+            values() {
+                const valuesArray = [];
+                for (let index of this.array) {
+                    if (index === undefined) {
+                        continue;
+                    } else {
+                        const value = Object.values(index);
+                        valuesArray.push(value[0]);
+                    }
+                }
+                return valuesArray;
+            }
+
+            entries() {
+                const newArray = [];
+                for (let index of this.array) {
+                    if (index === undefined) {
+                        continue;
+                    } else {
+                        newArray.push(index);
+                    }
+                }
+                return newArray;
+            }
+        }
+
+
+        const newHashMap = new HashMap();
+        console.log(newHashMap.set('bella', 'bella'));
+        console.log(newHashMap.set('hannah', 'bella'));
+        console.log(newHashMap.set('june', 'bella'));
+        // console.log(newHashMap.set('tea', 'bella'));
+        // console.log(newHashMap.set('lucas', 'bella'));
+        // console.log(newHashMap.set('kelly', 'bella'));
+        // console.log(newHashMap.set('gabe', 'bella'));
+        // console.log(newHashMap.set('montana', 'bella'));
+        // console.log(newHashMap.set('elizabeth', 'bella'));
+        // console.log(newHashMap.set('jane', 'bella'));
+        // console.log(newHashMap.set('darcy', 'bella'));
+        // console.log(newHashMap.set('charles', 'bella'));
+        // console.log(newHashMap.set('georgiana', 'bella'));
+
+    </script>
+</body>
+</html>
